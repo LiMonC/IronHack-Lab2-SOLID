@@ -1,0 +1,54 @@
+class SystemManager {
+    
+    const OrderType = {
+    "standard",
+    "express",
+    "not defined",
+    };
+
+    const priority = {
+    "highPriority",
+    "not defined",
+};
+
+    processOrder(order, priority) {
+
+        orderType = order.type
+         if (orderType === undefined) {
+            throw new Error('Invalid order type');
+         }
+        verifyInventory(order);
+        processPayment(orderType, priority);
+        updateOrderStatus(order, "processed");
+        notifyCustomer(order);
+    }
+
+    verifyInventory(order) {
+        // Checks inventory levels
+        if (inventory < order.quantity) {
+            throw new Error("Out of stock");
+        }
+    }
+
+    processPayment(order, priority) {
+            // Handles payment processing
+        if order.type = OrderType.express {
+            return standardPaymentService.process(order.amount)
+        } else if order.type = orderType.standard {
+            return expressPaymentService.process(order.amount, priority)
+        } else {
+             throw new Error("Payment failed");
+        }
+    }
+
+
+    updateOrderStatus(order, status) {
+        // Updates the order status in the database
+        database.updateOrderStatus(order.id, status);
+    }
+
+    notifyCustomer(order) {
+        // Sends an email notification to the customer
+        emailService.sendEmail(order.customerEmail, "Your order has been processed.");
+    }
+}
